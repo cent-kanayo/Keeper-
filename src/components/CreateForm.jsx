@@ -5,6 +5,7 @@ const CreateForm = (props) => {
     title: "",
     content: "",
   });
+  const [empty, setEmpty] = useState(true);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -21,6 +22,11 @@ const CreateForm = (props) => {
   };
   return (
     <div className="form-control">
+      {empty && (
+        <p style={{ background: "red", color: "white", borderRadius: "5px" }}>
+          Please enter all fields
+        </p>
+      )}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -34,12 +40,18 @@ const CreateForm = (props) => {
         <textarea
           name="content"
           cols="3"
-          rows="5"
+          rows="3"
           value={note.content}
           placeholder="Enter content"
           onChange={handleChange}
         ></textarea>
-        <input type="submit" />
+        <button
+          type="submit"
+          disabled={empty}
+          style={{ display: "block", width: "100%", cursor: "disa" }}
+        >
+          Submit
+        </button>
       </form>
     </div>
   );
