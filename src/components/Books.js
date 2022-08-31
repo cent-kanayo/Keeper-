@@ -6,9 +6,11 @@ const Books = () => {
     <div>
       <div>
         <h2>List of Books</h2>
-        {listOfBooks2.map((book) => {
-          return <Book list={book} key={book.id} />;
-        })}
+        <div className="cards">
+          {listOfBooks2.map((book) => {
+            return <Book list={book} key={book.id} />;
+          })}
+        </div>
       </div>
     </div>
   );

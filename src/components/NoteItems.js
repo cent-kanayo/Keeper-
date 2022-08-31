@@ -2,7 +2,9 @@ import React from "react";
 
 const NoteItems = ({ list, removeItem }) => {
   return (
-    <div className="note">
+    <div className="note
+    
+    ">
       {list.map((note, index) => {
         return (
           <article className="article" key={index}>

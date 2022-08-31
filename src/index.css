@@ -3,75 +3,25 @@
   padding: 0;
   box-sizing: border-box;
 }
-body {
+/* body {
   background-color: #cbc5d3;
 }
-header {
-  background-color: rgb(165, 165, 62);
-  color: white;
-  font-size: 1rem;
-  padding: 10px 7%;
-}
-.form-control {
-  width: 500px;
-  background-color: #ffffff;
-  padding: 1rem;
-  margin: 3em auto;
-  box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.3);
-}
-.form-control:hover {
-  box-shadow: 5px 7px 5px rgba(0, 0, 0, 0.5);
-  transition: 0.5s linear;
-}
-form {
-  display: block;
-  width: 100%;
-  font-size: 1rem;
-}
-form input {
-  width: 100%;
-  outline: none;
-  margin-bottom: 2em;
-  color: gray;
-  padding: 10px 4px;
-  border-radius: 5px;
-  font: inherit;
-}
-form textarea {
-  font: inherit;
-  width: 100%;
-  color: gray;
-  margin-bottom: 2em;
-  border-radius: 5px;
-  padding: 10px 10px;
-}
 
-.note {
-  margin: 20px;
+.cards {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
 }
-.article {
-  margin: 10px;
-  width: 300px;
-  background: #ffffff;
+.card {
+  width: 400px;
+  position: relative;
   padding: 2rem;
-}
-h4 {
-  margin-bottom: 0.5em;
-  font-size: 2rem;
-}
-p {
-  margin-bottom: 1em;
-  font-size: 1.5rem;
-}
-button {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 5px;
-  color: dodgerblue;
-  background: gold;
-  font-size: 1rem;
-  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 5px solid green;
+} */
+
+img {
+  display: block;
+  width: 80%;
+  height: 50%;
 }

@@ -1,7 +1,7 @@
 const Book = (props) => {
   const { imgUrl, title, author, desc } = props.list;
   return (
-    <div>
+    <div className="card">
       <img src={imgUrl} alt="" />
       <h4>{title}</h4>
       <h5>
