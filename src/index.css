@@ -3,25 +3,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-/* body {
-  background-color: #cbc5d3;
-}
-
-.cards {
-  display: flex;
-}
-.card {
-  width: 400px;
-  position: relative;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  border: 5px solid green;
-} */
-
-img {
-  display: block;
-  width: 80%;
-  height: 50%;
+body {
+  padding: 80px;
 }
