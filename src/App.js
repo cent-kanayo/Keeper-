@@ -3,56 +3,50 @@ import { bookList } from "./listOfBook";
 import Book from "./components/Book";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import axios from "axios";
 
 const App = () => {
-  const [count, setCount] = useState(0);
-  const [count2, setCount2] = useState(0);
-  const [books, setBooks] = useState(bookList);
-  const [name, setName] = useState(false);
-  const handleClick = () => {
-    setCount((count) => (count <= 0 ? (count = 0) : (count -= 1)));
-  };
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  useEffect(() => {
-    if (count % 2 === 0) {
-      setCount2(count2 + 1);
+  const url = "https://api.github.com/user";
+  const fetchUsers = async () => {
+    try {
+      // const resp = await fetch(url);
+      // const data = await resp.json();
+      // if (data.length > 0) {
+      //   setUsers(data);
+      //   setLoading(false);
+      // } else {
+      //   setError(true);
+      //   setLoading(false);
+      // }
+      const result = await axios.get(url);
+      setUsers(result.data);
+      setLoading(false);
+    } catch (error) {
+      setError(true);
+      setLoading(false);
     }
-  }, [count]);
-  const handleRemove = (id) => {
-    const newList = books.filter((book) => book.num !== id);
-    setBooks(newList);
   };
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  if (loading) return <h1>Loading...</h1>;
+  if (error) return <h1>Oops! Something went wrong. Please Try again</h1>;
   return (
     <>
       <Navbar />
-      <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
-        {name || <p>Welcome To Our Store</p>}
-        {books.map((book) => {
-          return (
-            <article
-              key={book.num}
-              style={{
-                width: "300px",
-                background: "#eee",
-                margin: "20px",
-                padding: "2rem",
-              }}
-            >
-              <img
-                src={book.image}
-                alt={book.title}
-                width="200px"
-                style={{ display: "block" }}
-              />
-              <h4>{book.title}</h4>
-              <h6>{book.author}</h6>
-              <p>${book.price}</p>
-              <button onClick={() => handleRemove(book.num)}>Remove</button>
-            </article>
-          );
-        })}
+      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+        {users.map((user) => (
+          <div key={user.id}>
+            <img src={user.avatar_url} alt="" width="200" />
+            <h3>{user.login}</h3>
+          </div>
+        ))}
       </div>
-
       <Footer />
     </>
   );
