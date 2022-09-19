@@ -1,107 +1,176 @@
 import React, { useState, useEffect } from "react";
-import { bookList } from "./listOfBook";
-import Book from "./components/Book";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import axios from "axios";
 
 const App = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [gender, setGender] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [usersInfo, setUserInfo] = useState([]);
+  const [disable, setDisable] = useState(false);
   const [error, setError] = useState(false);
 
-  const url = "https://api.github.com/user";
-  const fetchUsers = async () => {
-    try {
-      // const resp = await fetch(url);
-      // const data = await resp.json();
-      // if (data.length > 0) {
-      //   setUsers(data);
-      //   setLoading(false);
-      // } else {
-      //   setError(true);
-      //   setLoading(false);
-      // }
-      const result = await axios.get(url);
-      setUsers(result.data);
-      setLoading(false);
-    } catch (error) {
-      setError(true);
-      setLoading(false);
+  const handleSubmit = () => {
+    if (
+      !firstName &&
+      !lastName &&
+      !password &&
+      !confirmPassword &&
+      !email &&
+      !gender
+    ) {
+      setDisable(true);
+      return;
     }
+    if (password !== confirmPassword) {
+      alert("Password mismatch");
+      setError(true);
+      return;
+    }
+    setUserInfo((prevState) => [
+      ...prevState,
+      {
+        firstName,
+        lastName,
+        gender: gender,
+        email: email,
+        confirmPassword: confirmPassword,
+        password: password,
+      },
+    ]);
+    setEmail("");
+    setConfirmPassword("");
+    setLastName("");
+    setFirstName("");
+    setGender("");
+    setPassword("");
   };
   useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  if (loading) return <h1>Loading...</h1>;
-  if (error) return <h1>Oops! Something went wrong. Please Try again</h1>;
+    if (
+      firstName &&
+      lastName &&
+      password &&
+      confirmPassword &&
+      email &&
+      gender
+    ) {
+      setDisable(false);
+    }
+  }, [firstName, lastName, password, confirmPassword, email, gender]);
   return (
-    <>
-      <Navbar />
-      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-        {users.map((user) => (
-          <div key={user.id}>
-            <img src={user.avatar_url} alt="" width="200" />
-            <h3>{user.login}</h3>
-          </div>
-        ))}
+    <div style={{ paddingTop: "10%" }}>
+      <form
+        style={{
+          maxWidth: "800px",
+          margin: "0 auto",
+          background: "#eee",
+          padding: "20px",
+        }}
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
+        {error && <p>Password does not match!</p>}
+        <div className="form-control">
+          <label htmlFor="name">First Name</label>
+          <input
+            type="text"
+            placeholder="Enter First Name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+        </div>
+        <div className="form-control">
+          <label htmlFor="name">Last Name</label>
+          <input
+            type="text"
+            placeholder="Enter Last Name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+        </div>
+        <div className="form-control">
+          <label htmlFor="name">Gender</label>
+          <select
+            name=""
+            id=""
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+          >
+            <option value=""></option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <div className="form-control">
+          <label htmlFor="name">Email</label>
+          <input
+            type="email"
+            placeholder="Enter Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="form-control">
+          <label htmlFor="name">Password</label>
+          <input
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div className="form-control">
+          <label htmlFor="name">Confirm Password</label>
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </div>
+
+        <button
+          style={{
+            padding: "4px 8px",
+            background: "blue",
+            color: "white",
+            border: "none",
+          }}
+          type="submit"
+          onClick={handleSubmit}
+          disabled={disable}
+        >
+          Submit
+        </button>
+      </form>
+      <div>
+        {usersInfo.map((userInfo, index) => {
+          return (
+            <div
+              style={{
+                padding: "1rem",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "5px",
+              }}
+              key={index}
+            >
+              <h3>{userInfo.firstName}</h3>
+              <h3>{userInfo.lastName}</h3>
+              <p>{userInfo.gender}</p>
+              <p>{userInfo.email}</p>
+              <p>{userInfo.password}</p>
+              <p>{userInfo.confirmPassword}</p>
+              <a href="#">Hi</a>
+            </div>
+          );
+        })}
       </div>
-      <Footer />
-    </>
+    </div>
   );
 };
-
-// const Book2 = (props) => {
-//   return (
-//     <div style={{ border: "1px solid #eee", width: "300px" }}>
-//       <p>#2</p>
-//       <img
-//         src="https://images-na.ssl-images-amazon.com/images/W/WEBP_402378-T2/images/I/61xkvfPVupL._AC_UL600_SR600,400_.jpg"
-//         alt=""
-//         width="100"
-//       />
-//       <h4>November 9: A Novel</h4>
-//       <h6>Collen Hoover</h6>
-//       <p>${90}</p>
-//       <p>{props.title}</p>
-//     </div>
-//   );
-// };
-// const Title = () => {
-//   return <h1>React Js</h1>;
-// };
-
-// function List() {
-//   return (
-//     <ul>
-//       <Title />
-//       <li>Cars</li>
-//       <li>Bikes</li>
-//       <li>Jets</li>
-//     </ul>
-//   );
-// }
-
-// const Header = () => {
-//   return (
-//     <>
-//       <Title />
-//       <h2>Welcome to React JS Tutorial</h2>
-//     </>
-//   );
-// };
-
-/* {bookList.map((book) => {
-          return (
-            <Book
-              num={book.num}
-              image={book.image}
-              title={book.title}
-              author={book.author}
-              price={book.price}
-            />
-          );
-        })} */
 
 export default App;

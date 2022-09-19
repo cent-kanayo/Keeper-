@@ -3,6 +3,22 @@
   padding: 0;
   box-sizing: border-box;
 }
-body {
-  padding: 80px;
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 5px;
+  font-size: 1.5rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+input,
+select {
+  font: inherit;
+  outline: none;
+}
+
+button:disabled {
+  cursor: not-allowed;
 }
