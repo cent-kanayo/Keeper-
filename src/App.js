@@ -1,63 +1,84 @@
 import React, { useState, useEffect } from "react";
 
 const App = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [gender, setGender] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  //   const [firstName, setFirstName] = useState("");
+  //   const [lastName, setLastName] = useState("");
+  //   const [gender, setGender] = useState("");
+  //   const [password, setPassword] = useState("");
+  //   const [email, setEmail] = useState("");
+  //   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [userRegister, setUserRegister] = useState({
+    firstName: "",
+    lastName: "",
+    gender: "",
+    password: "",
+    email: "",
+    confirmPassword: "",
+  });
   const [usersInfo, setUserInfo] = useState([]);
-  const [disable, setDisable] = useState(false);
+  const [disable, setDisable] = useState(true);
   const [error, setError] = useState(false);
 
+  const canSave = [
+    userRegister.firstName,
+    userRegister.lastName,
+    userRegister.gender,
+    userRegister.password,
+    userRegister.email,
+    userRegister.confirmPassword,
+  ].every(Boolean);
+
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setUserRegister((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
+
   const handleSubmit = () => {
-    if (
-      !firstName &&
-      !lastName &&
-      !password &&
-      !confirmPassword &&
-      !email &&
-      !gender
-    ) {
+    if (!canSave) {
       setDisable(true);
       return;
-    }
-    if (password !== confirmPassword) {
+    } else if (
+      canSave &&
+      userRegister.password !== userRegister.confirmPassword
+    ) {
       alert("Password mismatch");
       setError(true);
       return;
+    } else {
+      setUserInfo((prevState) => [
+        ...prevState,
+        {
+          firstName: userRegister.firstName,
+          lastName: userRegister.lastName,
+          gender: userRegister.gender,
+          email: userRegister.email,
+          confirmPassword: userRegister.confirmPassword,
+          password: userRegister.password,
+        },
+      ]);
     }
-    setUserInfo((prevState) => [
-      ...prevState,
-      {
-        firstName,
-        lastName,
-        gender: gender,
-        email: email,
-        confirmPassword: confirmPassword,
-        password: password,
-      },
-    ]);
-    setEmail("");
-    setConfirmPassword("");
-    setLastName("");
-    setFirstName("");
-    setGender("");
-    setPassword("");
+    setUserRegister({
+      firstName: "",
+      lastName: "",
+      gender: "",
+      password: "",
+      email: "",
+      confirmPassword: "",
+    });
   };
   useEffect(() => {
-    if (
-      firstName &&
-      lastName &&
-      password &&
-      confirmPassword &&
-      email &&
-      gender
-    ) {
+    if (canSave) {
       setDisable(false);
     }
-  }, [firstName, lastName, password, confirmPassword, email, gender]);
+  }, [canSave]);
+
   return (
     <div style={{ paddingTop: "10%" }}>
       <form
@@ -77,8 +98,9 @@ const App = () => {
           <input
             type="text"
             placeholder="Enter First Name"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            value={userRegister.firstName}
+            onChange={handleChange}
+            name="firstName"
           />
         </div>
         <div className="form-control">
@@ -86,17 +108,18 @@ const App = () => {
           <input
             type="text"
             placeholder="Enter Last Name"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            value={userRegister.lastName}
+            onChange={handleChange}
+            name="lastName"
           />
         </div>
         <div className="form-control">
           <label htmlFor="name">Gender</label>
           <select
-            name=""
+            name="gender"
             id=""
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
+            value={userRegister.gender}
+            onChange={handleChange}
           >
             <option value=""></option>
             <option value="male">Male</option>
@@ -108,8 +131,9 @@ const App = () => {
           <input
             type="email"
             placeholder="Enter Email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={userRegister.email}
+            onChange={handleChange}
+            name="email"
           />
         </div>
         <div className="form-control">
@@ -117,8 +141,9 @@ const App = () => {
           <input
             type="password"
             placeholder="Enter Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={userRegister.password}
+            onChange={handleChange}
+            name="password"
           />
         </div>
         <div className="form-control">
@@ -126,8 +151,9 @@ const App = () => {
           <input
             type="password"
             placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={userRegister.confirmPassword}
+            onChange={handleChange}
+            name="confirmPassword"
           />
         </div>
 
